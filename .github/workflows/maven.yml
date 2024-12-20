@@ -41,8 +41,8 @@ jobs:
             
       - name: Compile the project
         run: mvn clean compile  # Nettoyer et compiler le projet
-        working-directory: ./password-calculator
+        working-directory: ./ai-checkpassword/password-calculator
         
       - name: Run Tests
         run: mvn clean test
-        working-directory: ./password-calculator
+        working-directory: ./ai-checkpassword/password-calculator
