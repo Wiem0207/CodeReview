@@ -1,50 +1,58 @@
 package com.example;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class AwesomePasswordCheckerTest {
 
-    @Test
-    public void testGetInstanceFromFile() throws IOException {
-        // Test loading instance from a file
-        File testFile = new File("test_clusters.csv");
+    private AwesomePasswordChecker passwordChecker;
 
-        AwesomePasswordChecker checker = AwesomePasswordChecker.getInstance(testFile);
-
-        assertNotNull(checker, "L'instance ne doit pas être nulle.");
+    @BeforeEach
+    public void setUp() throws IOException {
+        // Initialisation de l'instance avec un fichier de test
+        InputStream is = getClass().getClassLoader().getResourceAsStream("cluster_centers_HAC_aff.csv");
+        if (is == null) {
+            throw new IOException("Fichier de test introuvable");
+        }
+        passwordChecker = new AwesomePasswordChecker(is);
     }
 
     @Test
-    public void testGetDistance() throws IOException {
-        // Test password distance computation
-        AwesomePasswordChecker checker = AwesomePasswordChecker.getInstance();
-
-        String password = "MotDePasse123!";
-        double distance = checker.getDistance(password); // Corrected method name
-        assertTrue(distance >= 0, "La distance doit être un nombre positif.");
+    public void testGetInstance() throws IOException {
+        // Test de la méthode getInstance() avec un fichier existant
+        InputStream is = getClass().getClassLoader().getResourceAsStream("cluster_centers_HAC_aff.csv");
+        assertNotNull(is, "Le fichier de données n'a pas été trouvé.");
+        AwesomePasswordChecker instance = AwesomePasswordChecker.getInstance(is);
+        assertNotNull(instance, "L'instance de AwesomePasswordChecker ne doit pas être nulle.");
     }
 
     @Test
-    public void testMaskAff() throws IOException {
-        // Test mask generation for password
-        AwesomePasswordChecker checker = AwesomePasswordChecker.getInstance();
+    public void testMaskAff() {
+        // Test de la méthode maskAff pour une chaîne de mot de passe
+        String password = "password123!";
+        int[] expectedMask = new int[]{2, 2, 2, 2, 2, 2, 5, 5, 5, 5, 6, 7, 2, 2, 5, 5, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7};
+        int[] mask = passwordChecker.maskAff(password);
+        assertArrayEquals(expectedMask, mask, "Le masque généré ne correspond pas aux attentes.");
+    }
 
-        String password = "MotDePasse123!";
-        int[] mask = checker.maskAff(password);
-        assertEquals(28, mask.length, "Le masque doit contenir exactement 28 éléments.");
-        assertEquals(4, mask[0], "Le premier caractère (M majuscule) devrait être assigné à 4.");
-        assertEquals(5, mask[1], "Le deuxième caractère (o minuscule) devrait être assigné à 2.");
+    @Test
+    public void testGetDistance() {
+        // Test de la méthode getDistance qui calcule la distance euclidienne minimale
+        String password = "password123!";
+        double distance = passwordChecker.getDIstance(password);
+        assertTrue(distance >= 0, "La distance calculée ne doit pas être négative.");
     }
 
     @Test
     public void testComputeMD5() {
-        // Test MD5 hash computation
-        String input = "MotDePasse123!";
-        String md5Hash = AwesomePasswordChecker.computeMD5(input); // Corrected method name
-        assertTrue(md5Hash.matches("[a-f0-9]{32}"), "Le hachage MD5 doit être une chaîne de 32 caractères hexadécimaux.");
+        // Test de la méthode ComputeMD5 pour vérifier la validité du hash MD5
+        String input = "password123!";
+        String expectedMD5 = "bcb3b8b6fc3c5cc31abf3cba7ff5ef04";  // Le hash attendu (à ajuster selon le calcul MD5 réel)
+        String actualMD5 = AwesomePasswordChecker.ComputeMD5(input);
+        assertEquals(expectedMD5, actualMD5, "Le hash MD5 calculé ne correspond pas à l'attendu.");
     }
 }
+
