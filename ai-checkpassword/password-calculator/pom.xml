@@ -6,28 +6,20 @@
     <groupId>com.example</groupId>
     <artifactId>junit5-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-  <dependencies>
-    <!-- JUnit 5 dependencies -->
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.8.2</version>
-        <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-engine</artifactId>
-        <version>5.8.2</version>
-        <scope>test</scope>
-    </dependency>
-    <!-- Optional: If you're using JUnit Vintage (to support legacy JUnit 3/4 tests) -->
-    <dependency>
-        <groupId>org.junit.vintage</groupId>
-        <artifactId>junit-vintage-engine</artifactId>
-        <version>5.8.2</version>
-        <scope>test</scope>
-    </dependency>
+<dependencies>
+  <!-- JUnit 5 -->
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-api</artifactId>
+    <version>5.7.0</version>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-engine</artifactId>
+    <version>5.7.0</version>
+    <scope>test</scope>
+  </dependency>
 </dependencies>
 
 
