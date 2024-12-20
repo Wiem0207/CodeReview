@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - name: Build with Maven
+        run: mvn clean verify
+
+      - name: Run JaCoCo
+        run: mvn jacoco:report
+
+      - name: Run Checkstyle
+        run: mvn checkstyle:check
+
+      # Générer la documentation Javadoc
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
+
+      # Générer le rapport Cobertura
+      - name: Generate Cobertura report
+        run: mvn cobertura:cobertura
+
+      # Publier les rapports sur GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          # Le dossier à publier
+          folder: target/site
+          # Nom de la branche où publier (souvent gh-pages)
+          branch: gh-pages
+          # Token d'authentification (GitHub Token par défaut)
+          token: ${{ secrets.GITHUB_TOKEN }}
