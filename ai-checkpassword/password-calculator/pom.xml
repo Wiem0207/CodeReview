@@ -7,6 +7,21 @@
   <version>1.0-SNAPSHOT</version>
   <name>password-calculator</name>
   <url>http://maven.apache.org</url>
+<dependencies>
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.7.0</version> <!-- Use the latest stable version -->
+        <scope>test</scope>
+    </dependency>
+   <!-- JUnit 5 Dependency -->
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>5.7.0</version> <!-- Use the latest stable version -->
+        <scope>test</scope>
+    </dependency>
+</dependencies>
 
   <dependencies>
     <dependency>
