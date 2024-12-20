@@ -36,6 +36,10 @@ jobs:
       - name: Generate Cobertura report
         run: mvn cobertura:cobertura
 
+      # Exécuter les tests unitaires
+      - name: Run Unit Tests
+        run: mvn test
+
       # Publier les rapports sur GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
